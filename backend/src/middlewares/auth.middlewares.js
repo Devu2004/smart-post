@@ -2,7 +2,7 @@ const userModel = require('../models/user.model')
 const jwt = require("jsonwebtoken")
 const bcrypt = require('bcryptjs')
 
-async function authMiddlwares(req,res){
+async function authMiddlwares(req,res,next){
     const token = req.cookies.token
 
     if(!token){
@@ -16,6 +16,7 @@ async function authMiddlwares(req,res){
             _id : decoded.id
         })
         req.user = user
+        next()
     }
     catch(err){
         return res.status(401).json({
